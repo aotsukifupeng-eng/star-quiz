@@ -4,7 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>星喻測驗：在那場權力與慾望的迴圈裡，你是哪顆星？</title>
-    <link rel="stylesheet" href="style.cssv=2">
+    <style>
+    /* 把 style.css 的內容全部貼在這裡 */
+    /* 重點確認以下 .option-btn 的設定 */
+    
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Sans TC', sans-serif;
+        background: linear-gradient(135deg, #0B1026 0%, #1B2745 100%);
+        color: #fff;
+        min-height: 100vh; /* 改用 min-height 防止內容被切掉 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #particles-js { position: absolute; width: 100%; height: 100%; z-index: -1; }
+    .container { width: 90%; max-width: 600px; text-align: center; position: relative; z-index: 10; padding: 20px 0; }
+
+    /* --- 修復後的按鈕樣式 --- */
+    .option-btn {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* 文字靠左 */
+        text-align: left;
+        width: 100%;
+        min-height: 60px;       /* 最小高度 */
+        height: auto;           /* 自動長高 */
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #cbd5e1;
+        padding: 15px 20px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        font-size: 1rem;
+        line-height: 1.5;
+        white-space: normal;    /* 允許換行 */
+        word-wrap: break-word;
+        box-sizing: border-box;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .option-btn:hover {
+        background: rgba(207, 181, 59, 0.2);
+        border-color: #CFB53B;
+        color: #fff;
+    }
+
+    /* 其他原本的 CSS ... */
+    .title { font-family: 'Noto Serif TC', serif; font-size: 3rem; margin-bottom: 1rem; color: #e2e8f0; text-shadow: 0 0 20px rgba(255,255,255,0.2); }
+    .subtitle { font-size: 1.2rem; color: #94a3b8; margin-bottom: 3rem; line-height: 1.6; }
+    button { font-family: 'Noto Sans TC', sans-serif; }
+    .btn-primary { background: transparent; border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; padding: 15px 40px; font-size: 1.1rem; border-radius: 50px; backdrop-filter: blur(5px); }
+    .hidden { display: none; }
+    .active { display: block; }
+    .progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); margin-bottom: 30px; border-radius: 2px; }
+    #progress { height: 100%; background: #CFB53B; width: 0%; transition: width 0.3s ease; }
+    .result-card { background: rgba(0, 0, 0, 0.6); padding: 40px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; }
+    #result-name { font-family: 'Noto Serif TC'; font-size: 2.5rem; margin: 10px 0; color: #CFB53B; }
+    .btn-buy { display: inline-block; background: #CFB53B; color: #000; text-decoration: none; padding: 12px 30px; border-radius: 5px; font-weight: bold; margin-right: 10px; }
+    .btn-secondary { background: transparent; border: 1px solid #64748b; color: #94a3b8; padding: 12px 20px; border-radius: 5px; }
+
+    /* 手機版調整 */
+    @media (max-width: 768px) {
+        .title { font-size: 2rem; }
+        .question-text { font-size: 1.25rem; }
+        .option-btn { font-size: 0.95rem; padding: 12px 15px; }
+    }
+</style> 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
