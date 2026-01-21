@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星喻測驗：在那場權力與慾望的迴圈裡，你是哪顆星？</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <section id="landing-page" class="screen active">
+            <h1 class="title">星喻測驗</h1>
+            <p class="subtitle">在那場權力與慾望的迴圈裡<br>你是哪顆星？</p>
+            <button onclick="startQuiz()" class="btn-primary">開始測驗</button>
+        </section>
+
+        <section id="quiz-page" class="screen hidden">
+            <div class="progress-bar"><div id="progress"></div></div>
+            <h2 id="question-text" class="question-text">題目載入中...</h2>
+            <div id="options-container"></div>
+        </section>
+
+        <section id="result-page" class="screen hidden">
+            <div class="result-card">
+                <div class="star-icon">✦</div>
+                <h2 id="result-name">角色名</h2>
+                <p id="result-title">命盤稱號</p>
+                <hr class="divider">
+                <p id="result-desc">分析文案...</p>
+                <div class="btn-group">
+                    <a id="book-link" href="#" target="_blank" class="btn-buy">閱讀他的故事</a>
+                    <button onclick="location.reload()" class="btn-secondary">再測一次</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+/* 全局設定 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans TC', sans-serif;
+    background: linear-gradient(135deg, #0B1026 0%, #1B2745 100%);
+    color: #fff;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+/* 文字風格 */
+.title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #e2e8f0;
+    text-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+/* 按鈕風格 */
+button {
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+}
+
+.btn-primary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* 測驗區 */
+.hidden { display: none; }
+.active { display: block; }
+
+.question-text {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    min-height: 80px;
+}
+
+.option-btn {
+    display: block;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: left;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.option-btn:hover {
+    background: rgba(207, 181, 59, 0.2); /* 金色高亮 */
+    border-color: #CFB53B;
+    color: #fff;
+}
+
+/* 進度條 */
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    margin-bottom: 30px;
+    border-radius: 2px;
+}
+#progress {
+    height: 100%;
+    background: #CFB53B;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* 結果卡片 */
+.result-card {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+#result-name { font-family: 'Noto Serif TC'; font-size: 2.5rem; margin: 10px 0; color: #CFB53B; }
+#result-title { color: #94a3b8; font-size: 1rem; letter-spacing: 1px; }
+.star-icon { font-size: 2rem; color: #CFB53B; margin-bottom: 10px; }
+.divider { border: 0; height: 1px; background: rgba(255,255,255,0.2); margin: 20px 0; }
+#result-desc { text-align: left; line-height: 1.8; color: #cbd5e1; margin-bottom: 30px; font-size: 0.95rem; }
+
+.btn-buy {
+    display: inline-block;
+    background: #CFB53B;
+    color: #000;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-right: 10px;
+    transition: transform 0.2s;
+}
+.btn-buy:hover { transform: scale(1.05); }
+.btn-secondary {
+    background: transparent;
+    border: 1px solid #64748b;
+    color: #94a3b8;
+    padding: 12px 20px;
+    border-radius: 5px;
+}
