@@ -4,76 +4,215 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>星喻測驗：在那場權力與慾望的迴圈裡，你是哪顆星？</title>
-    <style>
-    /* 把 style.css 的內容全部貼在這裡 */
-    /* 重點確認以下 .option-btn 的設定 */
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
     
+    <style>
+    /* --- 全局設定 --- */
+    * {
+        box-sizing: border-box; /* 確保邊框和內距不會撐大元素 */
+    }
+
     body {
         margin: 0;
         padding: 0;
         font-family: 'Noto Sans TC', sans-serif;
         background: linear-gradient(135deg, #0B1026 0%, #1B2745 100%);
         color: #fff;
-        min-height: 100vh; /* 改用 min-height 防止內容被切掉 */
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow-x: hidden; /* 防止水平滾動 */
     }
 
-    #particles-js { position: absolute; width: 100%; height: 100%; z-index: -1; }
-    .container { width: 90%; max-width: 600px; text-align: center; position: relative; z-index: 10; padding: 20px 0; }
+    #particles-js {
+        position: fixed; /* 固定背景，防止滑動時背景跑掉 */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
 
-    /* --- 修復後的按鈕樣式 --- */
+    .container {
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+        padding: 20px;
+    }
+
+    /* --- 文字風格 --- */
+    .title {
+        font-family: 'Noto Serif TC', serif;
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #e2e8f0;
+        text-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        color: #94a3b8;
+        margin-bottom: 3rem;
+        line-height: 1.6;
+    }
+
+    /* --- 按鈕風格 --- */
+    button {
+        cursor: pointer;
+        font-family: 'Noto Sans TC', sans-serif;
+        -webkit-tap-highlight-color: transparent; /* 移除手機點擊藍框 */
+    }
+
+    .btn-primary {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #fff;
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+        border-radius: 50px;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+    /* --- 測驗區 --- */
+    .screen {
+        display: none; /* 預設隱藏 */
+        animation: fadeIn 0.5s ease;
+    }
+    .screen.active {
+        display: block; /* 啟用時顯示 */
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-text {
+        font-family: 'Noto Serif TC', serif;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+        min-height: 60px;
+        text-align: left; /* 題目靠左閱讀較舒適 */
+    }
+
+    /* --- 關鍵修復：選項按鈕 --- */
     .option-btn {
         display: flex;
         align-items: center;
-        justify-content: flex-start; /* 文字靠左 */
+        justify-content: flex-start;
         text-align: left;
         width: 100%;
-        min-height: 60px;       /* 最小高度 */
+        min-height: 64px;       /* 足夠的觸控區域 */
         height: auto;           /* 自動長高 */
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         color: #cbd5e1;
-        padding: 15px 20px;
-        margin-bottom: 15px;
-        border-radius: 8px;
+        padding: 16px 20px;
+        margin-bottom: 16px;
+        border-radius: 12px;
         font-size: 1rem;
-        line-height: 1.5;
-        white-space: normal;    /* 允許換行 */
-        word-wrap: break-word;
-        box-sizing: border-box;
-        cursor: pointer;
+        line-height: 1.6;
+        
+        /* 強制換行的核心語法 */
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        word-break: break-word;
+        
         transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
     }
-    .option-btn:hover {
-        background: rgba(207, 181, 59, 0.2);
+
+    .option-btn:hover, .option-btn:active {
+        background: rgba(207, 181, 59, 0.25);
         border-color: #CFB53B;
         color: #fff;
+        transform: scale(1.01);
     }
 
-    /* 其他原本的 CSS ... */
-    .title { font-family: 'Noto Serif TC', serif; font-size: 3rem; margin-bottom: 1rem; color: #e2e8f0; text-shadow: 0 0 20px rgba(255,255,255,0.2); }
-    .subtitle { font-size: 1.2rem; color: #94a3b8; margin-bottom: 3rem; line-height: 1.6; }
-    button { font-family: 'Noto Sans TC', sans-serif; }
-    .btn-primary { background: transparent; border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; padding: 15px 40px; font-size: 1.1rem; border-radius: 50px; backdrop-filter: blur(5px); }
-    .hidden { display: none; }
-    .active { display: block; }
-    .progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); margin-bottom: 30px; border-radius: 2px; }
-    #progress { height: 100%; background: #CFB53B; width: 0%; transition: width 0.3s ease; }
-    .result-card { background: rgba(0, 0, 0, 0.6); padding: 40px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; }
-    #result-name { font-family: 'Noto Serif TC'; font-size: 2.5rem; margin: 10px 0; color: #CFB53B; }
-    .btn-buy { display: inline-block; background: #CFB53B; color: #000; text-decoration: none; padding: 12px 30px; border-radius: 5px; font-weight: bold; margin-right: 10px; }
-    .btn-secondary { background: transparent; border: 1px solid #64748b; color: #94a3b8; padding: 12px 20px; border-radius: 5px; }
+    /* --- 進度條 --- */
+    .progress-bar {
+        width: 100%;
+        height: 6px;
+        background: rgba(255,255,255,0.1);
+        margin-bottom: 30px;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+    #progress {
+        height: 100%;
+        background: linear-gradient(90deg, #CFB53B, #F6E05E);
+        width: 0%;
+        transition: width 0.4s ease;
+    }
 
-    /* 手機版調整 */
+    /* --- 結果卡片 --- */
+    .result-card {
+        background: rgba(16, 24, 45, 0.85);
+        padding: 40px 30px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        backdrop-filter: blur(10px);
+    }
+    #result-name { font-family: 'Noto Serif TC'; font-size: 2.2rem; margin: 10px 0; color: #CFB53B; }
+    #result-title { color: #94a3b8; font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+    .divider { border: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); margin: 25px 0; }
+    #result-desc { text-align: justify; line-height: 1.8; color: #e2e8f0; margin-bottom: 35px; font-size: 1rem; }
+
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn-buy {
+        display: block;
+        background: #CFB53B;
+        color: #000;
+        text-decoration: none;
+        padding: 15px 0;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        transition: transform 0.2s;
+        width: 100%;
+        text-align: center;
+    }
+    .btn-buy:hover { transform: translateY(-2px); background: #e6c94c; }
+    
+    .btn-secondary {
+        background: transparent;
+        border: 1px solid #64748b;
+        color: #94a3b8;
+        padding: 15px 0;
+        border-radius: 8px;
+        width: 100%;
+    }
+
+    /* --- 手機版專用調整 --- */
     @media (max-width: 768px) {
-        .title { font-size: 2rem; }
-        .question-text { font-size: 1.25rem; }
-        .option-btn { font-size: 0.95rem; padding: 12px 15px; }
+        .title { font-size: 2.2rem; }
+        .subtitle { font-size: 1rem; margin-bottom: 2rem; }
+        .question-text { font-size: 1.2rem; margin-bottom: 1.5rem; }
+        .option-btn { font-size: 0.95rem; padding: 14px 16px; }
+        .result-card { padding: 30px 20px; }
     }
-</style> 
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
+    </style>
 </head>
 <body>
     <div id="particles-js"></div>
@@ -85,15 +224,15 @@
             <button onclick="startQuiz()" class="btn-primary">開始測驗</button>
         </section>
 
-        <section id="quiz-page" class="screen hidden">
+        <section id="quiz-page" class="screen">
             <div class="progress-bar"><div id="progress"></div></div>
             <h2 id="question-text" class="question-text">題目載入中...</h2>
             <div id="options-container"></div>
         </section>
 
-        <section id="result-page" class="screen hidden">
+        <section id="result-page" class="screen">
             <div class="result-card">
-                <div class="star-icon">✦</div>
+                <div style="font-size: 3rem; color: #CFB53B; margin-bottom: 10px;">✦</div>
                 <h2 id="result-name">角色名</h2>
                 <p id="result-title">命盤稱號</p>
                 <hr class="divider">
@@ -108,7 +247,90 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="data.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+
+    <script>
+    /* --- 1. 資料區 (DATA) --- */
+    const questions = [
+        {
+            question: "初次見面，如果有人蠻橫地踩髒了你潔白的球鞋，還挑釁地說「洗洗不就好了」，你會？",
+            options: [
+                { text: "冷眼旁觀，心裡評估這個人的利用價值與膽量。", type: "A" },
+                { text: "雖然生氣，但會冷靜分析對方的動機，並用言語冷冷地回擊。", type: "B" },
+                { text: "我就是那個踩鞋子的人。為了引起注意，我會用侵略性的方式試探。", type: "C" },
+                { text: "壓抑怒氣，語氣堅定地表達不滿，但最後默默把鞋子洗乾淨。", type: "D" }
+            ]
+        },
+        {
+            question: "在美術館看到一幅大面積留白的水墨畫，你第一時間的感想是？",
+            options: [
+                { text: "我想擁有這幅畫。這種孤傲與留白，正是我內心渴望的境界。", type: "A" },
+                { text: "畫家在下筆前猶豫了三秒。這種克制與停頓，才是靈魂。", type: "B" },
+                { text: "這幅畫值多少錢？掛在我的辦公室裡，能不能襯托我的地位？", type: "C" },
+                { text: "感覺很平靜，但也有一種說不出的寂寞，像是在等待回應。", type: "D" }
+            ]
+        },
+        {
+            question: "工作上遇到重大危機（如預算超支或意外），必須有人犧牲，你會？",
+            options: [
+                { text: "動用權力強勢壓下反對聲音，必要時犧牲少數人保全大局。", type: "A" },
+                { text: "蒐集數據，用無懈可擊的邏輯將對手駁斥得體無完膚。", type: "B" },
+                { text: "利用魅力與交際手腕，在私下場合搞定關鍵人物。", type: "C" },
+                { text: "第一時間承擔責任，即使不是我的錯，也會默默善後。", type: "D" }
+            ]
+        },
+        {
+            question: "關於「愛情」與「麵包（事業/權力）」，你的選擇是？",
+            options: [
+                { text: "我全都要，但必須先鞏固帝國。沒有權力，拿什麼保護愛人？", type: "A" },
+                { text: "我可以做影子，但若尊嚴被踐踏，我會斷然離去自我成全。", type: "B" },
+                { text: "選擇對事業有幫助的伴侶結婚，把靈魂留給最懂我的那個人。", type: "C" },
+                { text: "願意為了成全對方的夢想而退讓，親手為他搭建幸福。", type: "D" }
+            ]
+        },
+        {
+            question: "分手多年後重逢，對方希望復合，你會？",
+            options: [
+                { text: "當然接受。我已奪回一切，現在我有足夠能力給他最好的。", type: "A" },
+                { text: "看表現。書斷了脊需要修復，但我願意給彼此修補的機會。", type: "B" },
+                { text: "用熱烈的追求再次征服他。我知道他心裡還有我。", type: "C" },
+                { text: "不一定。我已將過去燒成灰，現在的我雖然孤獨但完整。", type: "D" }
+            ]
+        }
+    ];
+
+    const results = {
+        A: {
+            name: "賀宇",
+            title: "紫微貪狼的孤獨帝王",
+            desc: "你是天生的領導者，擁有睥睨一切的氣場。你習慣掌控全局，外表強大，內心卻渴望一個能看懂你「留白」處孤獨的靈魂。建議：權力可以換來臣服，但換不來真心。試著走下神壇淋一場雨，你會發現狼狽一點也沒關係。",
+            bookLink: "https://readmoo.com/" 
+        },
+        B: {
+            name: "陳曦",
+            title: "天機太陰的清冷月光",
+            desc: "你敏感、內斂、聰慧。初期容易為了愛委曲求全，甘願做強者的影子。但你的內心藏著強大的韌性，一旦底線被觸及，你會比誰都決絕。你終將明白，你不需要反射太陽的光，你自己就是發光體。",
+            bookLink: "https://readmoo.com/" 
+        },
+        C: {
+            name: "沈奕廷",
+            title: "武曲貪狼的現實獵手",
+            desc: "你充滿野心，是職場上的獵手。你既現實又深情，這讓你陷入將「婚姻」與「愛情」切割的矛盾。你以為可以兩全其美，卻沒發現這種貪婪是對愛最殘忍的凌遲。建議：不要等到失去了那瓶寶礦力水得，才發現昂貴的紅酒有多難喝。",
+            bookLink: "https://readmoo.com/" 
+        },
+        D: {
+            name: "林昱丞",
+            title: "天同天梁的溫柔守護者",
+            desc: "你溫和善良，總是替別人著想，擅長忍耐與犧牲。面對傷害，你選擇默默承受並轉身離開。你的愛深沉而長情，最終你會將這份愛轉化為養分，重塑一個雖然孤獨但完整的自己。",
+            bookLink: "https://readmoo.com/" 
+        }
+    };
+
+    /* --- 2. 程式邏輯 (LOGIC) --- */
+    let currentQuestionIndex = 0;
+    let scores = { A: 0, B: 0, C: 0, D: 0 };
+
+    // 初始化粒子特效
+    if(window.particlesJS) {
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value":
