@@ -7,9 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
     
     <style>
-    /* --- 全局設定 --- */
+    /* --- 1. 全局設定 (Reset & Base) --- */
     * {
-        box-sizing: border-box; /* 確保邊框和內距不會撐大元素 */
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -22,34 +23,40 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        overflow-x: hidden; /* 防止水平滾動 */
+        overflow-x: hidden;
     }
 
     #particles-js {
-        position: fixed; /* 固定背景，防止滑動時背景跑掉 */
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         z-index: -1;
+        pointer-events: none;
     }
 
     .container {
         width: 100%;
         max-width: 600px;
-        text-align: center;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         position: relative;
         z-index: 10;
         padding: 20px;
     }
 
-    /* --- 文字風格 --- */
+    /* --- 2. 文字風格 --- */
     .title {
         font-family: 'Noto Serif TC', serif;
         font-size: 3rem;
         margin-bottom: 1rem;
         color: #e2e8f0;
         text-shadow: 0 0 20px rgba(255,255,255,0.2);
+        line-height: 1.2;
     }
 
     .subtitle {
@@ -59,98 +66,103 @@
         line-height: 1.6;
     }
 
-    /* --- 按鈕風格 --- */
+    /* --- 3. 按鈕風格 --- */
     button {
         cursor: pointer;
         font-family: 'Noto Sans TC', sans-serif;
-        -webkit-tap-highlight-color: transparent; /* 移除手機點擊藍框 */
+        border: none;
+        outline: none;
     }
 
     .btn-primary {
-        background: transparent;
+        background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.3);
         color: #fff;
-        padding: 15px 40px;
-        font-size: 1.1rem;
+        padding: 15px 50px;
+        font-size: 1.2rem;
         letter-spacing: 2px;
         border-radius: 50px;
         backdrop-filter: blur(5px);
         transition: all 0.3s ease;
+        margin-top: 20px;
     }
 
     .btn-primary:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.2);
         border-color: #fff;
         transform: translateY(-2px);
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
     }
 
-    /* --- 測驗區 --- */
+    /* --- 4. 測驗區塊與動畫 --- */
     .screen {
-        display: none; /* 預設隱藏 */
-        animation: fadeIn 0.5s ease;
+        display: none;
+        width: 100%;
     }
     .screen.active {
-        display: block; /* 啟用時顯示 */
+        display: block;
+        animation: fadeIn 0.6s ease forwards;
     }
 
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
+        from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
     .question-text {
         font-family: 'Noto Serif TC', serif;
         font-size: 1.5rem;
-        margin-bottom: 2rem;
+        margin-bottom: 25px;
         line-height: 1.6;
-        min-height: 60px;
-        text-align: left; /* 題目靠左閱讀較舒適 */
+        text-align: left;
+        color: #f1f5f9;
+        font-weight: 500;
     }
 
-    /* --- 關鍵修復：選項按鈕 --- */
+    /* --- 5. 選項按鈕 (重點修復) --- */
     .option-btn {
         display: flex;
         align-items: center;
         justify-content: flex-start;
         text-align: left;
         width: 100%;
-        min-height: 64px;       /* 足夠的觸控區域 */
-        height: auto;           /* 自動長高 */
+        min-height: 70px;       /* 增加最小高度 */
+        height: auto;           /* 自動延伸 */
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.15);
         color: #cbd5e1;
-        padding: 16px 20px;
-        margin-bottom: 16px;
+        padding: 15px 20px;
+        margin-bottom: 15px;
         border-radius: 12px;
-        font-size: 1rem;
+        font-size: 1.05rem;
         line-height: 1.6;
         
-        /* 強制換行的核心語法 */
+        /* 強制換行設定 */
         white-space: normal !important;
         word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
         word-break: break-word;
         
         transition: all 0.2s ease;
-        position: relative;
-        overflow: hidden;
     }
 
-    .option-btn:hover, .option-btn:active {
-        background: rgba(207, 181, 59, 0.25);
+    .option-btn:hover {
+        background: rgba(207, 181, 59, 0.25); /* 金色高亮 */
         border-color: #CFB53B;
         color: #fff;
-        transform: scale(1.01);
+        transform: translateX(5px);
     }
 
-    /* --- 進度條 --- */
+    .option-btn:active {
+        transform: scale(0.98);
+    }
+
+    /* --- 6. 進度條 --- */
     .progress-bar {
         width: 100%;
         height: 6px;
         background: rgba(255,255,255,0.1);
         margin-bottom: 30px;
-        border-radius: 3px;
+        border-radius: 10px;
         overflow: hidden;
     }
     #progress {
@@ -160,38 +172,33 @@
         transition: width 0.4s ease;
     }
 
-    /* --- 結果卡片 --- */
+    /* --- 7. 結果卡片 --- */
     .result-card {
-        background: rgba(16, 24, 45, 0.85);
+        background: rgba(16, 24, 45, 0.9);
         padding: 40px 30px;
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 16px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        backdrop-filter: blur(10px);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        text-align: center;
     }
-    #result-name { font-family: 'Noto Serif TC'; font-size: 2.2rem; margin: 10px 0; color: #CFB53B; }
+    .star-icon { font-size: 3rem; color: #CFB53B; margin-bottom: 10px; }
+    #result-name { font-family: 'Noto Serif TC'; font-size: 2.5rem; margin: 5px 0; color: #CFB53B; }
     #result-title { color: #94a3b8; font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
-    .divider { border: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); margin: 25px 0; }
-    #result-desc { text-align: justify; line-height: 1.8; color: #e2e8f0; margin-bottom: 35px; font-size: 1rem; }
-
-    .btn-group {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
+    .divider { border: 0; height: 1px; background: rgba(255,255,255,0.2); margin: 20px 0; }
+    #result-desc { text-align: justify; line-height: 1.8; color: #e2e8f0; margin-bottom: 30px; font-size: 1rem; }
 
     .btn-buy {
         display: block;
+        width: 100%;
         background: #CFB53B;
         color: #000;
         text-decoration: none;
-        padding: 15px 0;
+        padding: 16px 0;
         border-radius: 8px;
         font-weight: bold;
         font-size: 1.1rem;
+        margin-bottom: 15px;
         transition: transform 0.2s;
-        width: 100%;
-        text-align: center;
     }
     .btn-buy:hover { transform: translateY(-2px); background: #e6c94c; }
     
@@ -199,18 +206,20 @@
         background: transparent;
         border: 1px solid #64748b;
         color: #94a3b8;
-        padding: 15px 0;
-        border-radius: 8px;
+        padding: 12px 0;
         width: 100%;
+        border-radius: 8px;
+        font-size: 1rem;
     }
 
-    /* --- 手機版專用調整 --- */
+    /* --- 8. 手機版 RWD 調整 --- */
     @media (max-width: 768px) {
         .title { font-size: 2.2rem; }
         .subtitle { font-size: 1rem; margin-bottom: 2rem; }
         .question-text { font-size: 1.2rem; margin-bottom: 1.5rem; }
-        .option-btn { font-size: 0.95rem; padding: 14px 16px; }
+        .option-btn { font-size: 0.95rem; padding: 12px 15px; margin-bottom: 12px; }
         .result-card { padding: 30px 20px; }
+        #result-name { font-size: 2rem; }
     }
     </style>
 </head>
@@ -219,9 +228,11 @@
 
     <div class="container">
         <section id="landing-page" class="screen active">
-            <h1 class="title">星喻測驗</h1>
-            <p class="subtitle">在那場權力與慾望的迴圈裡<br>你是哪顆星？</p>
-            <button onclick="startQuiz()" class="btn-primary">開始測驗</button>
+            <div style="text-align: center;">
+                <h1 class="title">星喻測驗</h1>
+                <p class="subtitle">在那場權力與慾望的迴圈裡<br>你是哪顆星？</p>
+                <button onclick="startQuiz()" class="btn-primary">開始測驗</button>
+            </div>
         </section>
 
         <section id="quiz-page" class="screen">
@@ -232,15 +243,14 @@
 
         <section id="result-page" class="screen">
             <div class="result-card">
-                <div style="font-size: 3rem; color: #CFB53B; margin-bottom: 10px;">✦</div>
+                <div class="star-icon">✦</div>
                 <h2 id="result-name">角色名</h2>
                 <p id="result-title">命盤稱號</p>
                 <hr class="divider">
                 <p id="result-desc">分析文案...</p>
-                <div class="btn-group">
-                    <a id="book-link" href="#" target="_blank" class="btn-buy">閱讀他的故事</a>
-                    <button onclick="location.reload()" class="btn-secondary">再測一次</button>
-                </div>
+                
+                <a id="book-link" href="#" target="_blank" class="btn-buy">閱讀他的故事</a>
+                <button onclick="location.reload()" class="btn-secondary">再測一次</button>
             </div>
         </section>
     </div>
@@ -249,7 +259,7 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <script>
-    /* --- 1. 資料區 (DATA) --- */
+    /* --- 測驗資料庫 --- */
     const questions = [
         {
             question: "初次見面，如果有人蠻橫地踩髒了你潔白的球鞋，還挑釁地說「洗洗不就好了」，你會？",
@@ -270,7 +280,7 @@
             ]
         },
         {
-            question: "工作上遇到重大危機（如預算超支或意外），必須有人犧牲，你會？",
+            question: "工作上遇到重大危機，必須有人犧牲，你會？",
             options: [
                 { text: "動用權力強勢壓下反對聲音，必要時犧牲少數人保全大局。", type: "A" },
                 { text: "蒐集數據，用無懈可擊的邏輯將對手駁斥得體無完膚。", type: "B" },
@@ -325,12 +335,101 @@
         }
     };
 
-    /* --- 2. 程式邏輯 (LOGIC) --- */
+    /* --- 邏輯控制 --- */
     let currentQuestionIndex = 0;
     let scores = { A: 0, B: 0, C: 0, D: 0 };
 
-    // 初始化粒子特效
+    // 粒子特效
     if(window.particlesJS) {
         particlesJS("particles-js", {
             "particles": {
-                "number": { "value":
+                "number": { "value": 50 },
+                "color": { "value": "#ffffff" },
+                "opacity": { "value": 0.3 },
+                "size": { "value": 3 },
+                "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 1 }
+            }
+        });
+    }
+
+    function startQuiz() {
+        switchScreen('landing-page', 'quiz-page');
+        showQuestion();
+    }
+
+    function showQuestion() {
+        let q = questions[currentQuestionIndex];
+        
+        // 題目文字動畫
+        let qText = document.getElementById('question-text');
+        qText.innerHTML = q.question;
+        gsap.fromTo(qText, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5 });
+
+        // 生成選項
+        let optionsHtml = '';
+        q.options.forEach(opt => {
+            optionsHtml += `<button class="option-btn" onclick="selectAnswer('${opt.type}')">${opt.text}</button>`;
+        });
+        document.getElementById('options-container').innerHTML = optionsHtml;
+
+        // 選項動畫 (階梯式浮現)
+        gsap.fromTo(".option-btn", 
+            { y: 30, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 0.4, stagger: 0.1 }
+        );
+
+        // 更新進度條
+        let progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+        document.getElementById('progress').style.width = `${progress}%`;
+    }
+
+    function selectAnswer(type) {
+        scores[type]++;
+        currentQuestionIndex++;
+        
+        // 延遲一下讓使用者看到按鈕的點擊效果
+        setTimeout(() => {
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }, 200);
+    }
+
+    function showResult() {
+        // 計算最高分
+        let winner = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+        let data = results[winner];
+
+        // 填入資料
+        document.getElementById('result-name').innerText = data.name;
+        document.getElementById('result-title').innerText = data.title;
+        document.getElementById('result-desc').innerText = data.desc;
+        document.getElementById('book-link').href = data.bookLink;
+
+        // 根據結果修改按鈕文字
+        if(winner === 'A' || winner === 'B') {
+            document.getElementById('book-link').innerText = "點此閱讀《月映貪狼》";
+        } else {
+            document.getElementById('book-link').innerText = "點此閱讀《同梁獻祭》";
+        }
+
+        switchScreen('quiz-page', 'result-page');
+    }
+
+    // 畫面切換函式
+    function switchScreen(fromId, toId) {
+        let fromEl = document.getElementById(fromId);
+        let toEl = document.getElementById(toId);
+
+        fromEl.classList.remove('active');
+        toEl.classList.add('active');
+        
+        // 進入動畫
+        gsap.fromTo(toEl, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.5 });
+    }
+    </script>
+</body>
+</html>
